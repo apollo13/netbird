@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
-	"net"
 	"net/netip"
 	"os"
 	"path/filepath"
@@ -21,6 +20,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hossinasaadi/anet"
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/protobuf/encoding/protojson"
 
@@ -523,7 +523,7 @@ func (g *BundleGenerator) addProf() (err error) {
 }
 
 func (g *BundleGenerator) addInterfaces() error {
-	interfaces, err := net.Interfaces()
+	interfaces, err := anet.Interfaces()
 	if err != nil {
 		return fmt.Errorf("get interfaces: %w", err)
 	}

@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hossinasaadi/anet"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc/codes"
@@ -729,7 +730,7 @@ func isValidIP(ip string) bool {
 }
 
 func isValidInterface(name string) (bool, error) {
-	netInterfaces, err := net.Interfaces()
+	netInterfaces, err := anet.Interfaces()
 	if err != nil {
 		return false, err
 	}

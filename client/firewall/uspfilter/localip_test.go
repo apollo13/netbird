@@ -5,6 +5,7 @@ import (
 	"net/netip"
 	"testing"
 
+	"github.com/hossinasaadi/anet"
 	"github.com/stretchr/testify/require"
 
 	"github.com/netbirdio/netbird/client/iface/wgaddr"
@@ -106,7 +107,7 @@ func TestLocalIPManager_AllInterfaces(t *testing.T) {
 	mock := &IFaceMock{}
 
 	// Get actual local interfaces
-	interfaces, err := net.Interfaces()
+	interfaces, err := anet.Interfaces()
 	require.NoError(t, err)
 
 	var tests []struct {

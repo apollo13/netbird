@@ -14,6 +14,7 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/google/uuid"
+	"github.com/hossinasaadi/anet"
 	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -1176,7 +1177,7 @@ loop:
 }
 
 func Test_ParseNATExternalIPMappings(t *testing.T) {
-	ifaceList, err := net.Interfaces()
+	ifaceList, err := anet.Interfaces()
 	if err != nil {
 		t.Fatalf("could get the interface list, got error: %s", err)
 	}

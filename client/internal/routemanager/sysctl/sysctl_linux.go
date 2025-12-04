@@ -4,12 +4,12 @@ package sysctl
 
 import (
 	"fmt"
-	"net"
 	"os"
 	"strconv"
 	"strings"
 
 	"github.com/hashicorp/go-multierror"
+	"github.com/hossinasaadi/anet"
 	log "github.com/sirupsen/logrus"
 
 	nberrors "github.com/netbirdio/netbird/client/errors"
@@ -46,7 +46,7 @@ func Setup(wgIface iface) (map[string]int, error) {
 		keys[rpFilterPath] = oldVal
 	}
 
-	interfaces, err := net.Interfaces()
+	interfaces, err := anet.Interfaces()
 	if err != nil {
 		result = multierror.Append(result, fmt.Errorf("list interfaces: %w", err))
 	}

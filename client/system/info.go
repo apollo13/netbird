@@ -6,6 +6,7 @@ import (
 	"net/netip"
 	"strings"
 
+	"github.com/hossinasaadi/anet"
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc/metadata"
 
@@ -146,17 +147,17 @@ func extractDeviceName(ctx context.Context, defaultName string) string {
 }
 
 func networkAddresses() ([]NetworkAddress, error) {
-	interfaces, err := net.Interfaces()
+	interfaces, err := anet.Interfaces()
 	if err != nil {
 		return nil, err
 	}
 
 	var netAddresses []NetworkAddress
 	for _, iface := range interfaces {
-		if iface.HardwareAddr.String() == "" {
-			continue
-		}
-		addrs, err := iface.Addrs()
+		//if iface.HardwareAddr.String() == "" {
+		//	continue
+		//}
+		addrs, err := anet.InterfaceAddrTable(&iface)
 		if err != nil {
 			continue
 		}

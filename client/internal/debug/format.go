@@ -7,6 +7,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/hossinasaadi/anet"
 	"github.com/netbirdio/netbird/client/anonymize"
 	"github.com/netbirdio/netbird/client/internal/peer"
 	"github.com/netbirdio/netbird/client/internal/routemanager/systemops"
@@ -27,7 +28,7 @@ func formatInterfaces(interfaces []net.Interface, anonymize bool, anonymizer *an
 		builder.WriteString(fmt.Sprintf("  MTU: %d\n", iface.MTU))
 		builder.WriteString(fmt.Sprintf("  Flags: %v\n", iface.Flags))
 
-		addrs, err := iface.Addrs()
+		addrs, err := anet.InterfaceAddrTable(&iface)
 		if err != nil {
 			builder.WriteString(fmt.Sprintf("  Addresses: Error retrieving addresses: %v\n", err))
 		} else {

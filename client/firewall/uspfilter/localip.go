@@ -6,6 +6,7 @@ import (
 	"net/netip"
 	"sync"
 
+	"github.com/hossinasaadi/anet"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/netbirdio/netbird/client/firewall/uspfilter/common"
@@ -87,7 +88,7 @@ func (m *localIPManager) processIP(ip netip.Addr, bitmap *[256]*ipv4LowBitmap, i
 }
 
 func (m *localIPManager) processInterface(iface net.Interface, bitmap *[256]*ipv4LowBitmap, ipv4Set map[netip.Addr]struct{}, ipv4Addresses *[]netip.Addr) {
-	addrs, err := iface.Addrs()
+	addrs, err := anet.InterfaceAddrTable(&iface)
 	if err != nil {
 		log.Debugf("get addresses for interface %s failed: %v", iface.Name, err)
 		return
@@ -139,7 +140,7 @@ func (m *localIPManager) UpdateLocalIPs(iface common.IFaceMapper) (err error) {
 		}
 	}
 
-	interfaces, err := net.Interfaces()
+	interfaces, err := anet.Interfaces()
 	if err != nil {
 		log.Warnf("failed to get interfaces: %v", err)
 	} else {

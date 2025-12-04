@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/go-multierror"
+	"github.com/hossinasaadi/anet"
 	"github.com/libp2p/go-netroute"
 	log "github.com/sirupsen/logrus"
 
@@ -177,7 +178,7 @@ func (r *SysOps) isPrefixInLocalSubnets(prefix netip.Prefix) (bool, *net.IPNet) 
 }
 
 func (r *SysOps) refreshLocalSubnetsCache() {
-	localInterfaces, err := net.Interfaces()
+	localInterfaces, err := anet.Interfaces()
 	if err != nil {
 		log.Errorf("Failed to get local interfaces: %v", err)
 		return
@@ -185,7 +186,7 @@ func (r *SysOps) refreshLocalSubnetsCache() {
 
 	var newSubnets []*net.IPNet
 	for _, intf := range localInterfaces {
-		addrs, err := intf.Addrs()
+		addrs, err := anet.InterfaceAddrTable(&intf)
 		if err != nil {
 			log.Errorf("Failed to get addresses for interface %s: %v", intf.Name, err)
 			continue

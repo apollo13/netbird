@@ -17,6 +17,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/go-multierror"
+	"github.com/hossinasaadi/anet"
 	"github.com/pion/ice/v4"
 	"github.com/pion/stun/v3"
 	log "github.com/sirupsen/logrus"
@@ -1648,7 +1649,7 @@ func findIPFromInterfaceName(ifaceName string) (net.IP, error) {
 }
 
 func findIPFromInterface(iface *net.Interface) (net.IP, error) {
-	ifaceAddrs, err := iface.Addrs()
+	ifaceAddrs, err := anet.InterfaceAddrTable(iface)
 	if err != nil {
 		return nil, err
 	}
@@ -2045,7 +2046,7 @@ func isChecksEqual(checks1, checks2 []*mgmProto.Checks) bool {
 }
 
 func getInterfacePrefixes() ([]netip.Prefix, error) {
-	ifaces, err := net.Interfaces()
+	ifaces, err := anet.Interfaces()
 	if err != nil {
 		return nil, fmt.Errorf("get interfaces: %w", err)
 	}
@@ -2054,7 +2055,7 @@ func getInterfacePrefixes() ([]netip.Prefix, error) {
 	var merr *multierror.Error
 
 	for _, iface := range ifaces {
-		addrs, err := iface.Addrs()
+		addrs, err := anet.InterfaceAddrTable(&iface)
 		if err != nil {
 			merr = multierror.Append(merr, fmt.Errorf("get addresses for interface %s: %w", iface.Name, err))
 			continue
